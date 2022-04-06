@@ -1,0 +1,68 @@
+#include <stdio.h>
+#define N 1024
+int main(int argc, char *argv[])
+{
+	float x[N];
+	char ch[N];
+	int i=0,t1,t2;
+	float t;
+	t1=t2=1;
+	float sum=0;
+	do{
+		scanf("%f%c",&x[i],&ch[i]);
+		i++;
+	}while(ch[i-1]!='\n'); 
+	i--;
+	sum=x[0];
+	for(int j=0;j<i;)
+	{
+		t=x[j];
+		if((ch[j]=='*'||ch[j]=='/')&&t2==1)
+		{
+			while(ch[j]=='*'||ch[j]=='/')
+			{
+				if(ch[j]=='*')
+					t=t*x[j+1];
+				else 
+					t=t/x[j+1];
+				j++;
+			}
+			sum=t;
+			t2=0;
+		}
+		else
+			t2=0;
+		if(ch[j]=='+'||ch[j]=='-')
+		{
+			if(ch[j+1]!='*'&&ch[j+1]!='/')
+			{
+				switch(ch[j])
+				{
+					case '+':sum=sum+x[j+1];j++;break;
+					case '-':sum=sum-x[j+1];j++;
+				}
+			}	
+			else
+				{
+					t=x[j+1];
+					t1=j+1;
+					while(ch[t1]=='*'||ch[t1]=='/')
+					{
+						if(ch[t1]=='*')
+							t=t*x[t1+1];
+						else 
+							t=t/x[t1+1];
+						t1++;
+					}
+					switch(ch[j])
+					{
+						case '+':sum=sum+t;break;
+						case '-':sum=sum-t;
+					}
+					j=t1;
+				}	
+		}
+	}
+	printf("%f",sum);
+	return 0;
+}
